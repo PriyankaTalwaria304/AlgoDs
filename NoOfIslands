@@ -1,0 +1,47 @@
+import java.util.Arrays;
+
+public class NoOfIslands {
+	
+	private static int row_indices[] =    {1,0,-1,-1,-1,0,1,1};
+	private static int column_indices[] = {1,1,1,0,-1,-1,-1,0};
+	private static int rows;
+	private static int columns;
+	
+	public void countIslands(int[][]g, int[][]visited, int count,int row, int column) {
+			visited[row][column]=1;
+			for(int k=0;k<8;k++) {
+				int curr_row = row + row_indices[k];
+				int curr_column = column + column_indices[k];
+				if(curr_row >= 0 && curr_column >= 0 && curr_row < rows && curr_column < columns 
+						&& g[curr_row][curr_column]==1 && visited[curr_row][curr_column]!=1) {
+					countIslands(g,visited,count, curr_row,curr_column);
+				}
+			}
+	}
+	
+	public static void main(String args[]) {
+		int [][] graph = {
+				        {1, 1, 0, 0, 0},
+                {0, 1, 0, 0, 1},
+                {1, 0, 0, 1, 1},
+                {0, 0, 0, 0, 0},
+                {1, 0, 1, 0, 1} 
+			};
+		int count = 0;
+		rows = graph.length;
+		columns = graph[0].length;
+		
+		int[][] visited = new int[rows][columns];
+		
+		NoOfIslands obj = new NoOfIslands();
+		
+		for(int i=0;i<rows;i++)
+			for(int j=0;j<columns;j++) {
+				if(graph[i][j] == 1 && visited[i][j]!=1) {
+					count =count+1;
+					obj.countIslands(graph, visited, count,i , j);
+				}
+			}
+		System.out.println("No of Islands are "+ count);
+	}
+}
