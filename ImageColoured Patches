@@ -1,0 +1,60 @@
+package abc.com;
+
+public class ImagePatch {
+	private static int row_indices[] =    {1,0,-1,-1,-1,0,1,1};
+	private static int column_indices[] = {1,1,1,0,-1,-1,-1,0};
+	private static int rows;
+	private static int columns;
+	
+	public void countPatches(char[][] img,int[][]visited,int row,int column,char curr_color) {
+		if(visited[row][column]!=1) {
+			visited[row][column]=1;
+			for(int k=0;k<8;k++) {
+				int curr_row = row + row_indices[k];
+				int curr_column = column + column_indices[k];
+				if(curr_row >= 0 && curr_column >= 0 && curr_row < rows && curr_column < columns 
+						&& img[curr_row][curr_column] == curr_color && visited[curr_row][curr_column]!=1) {
+					countPatches(img,visited, curr_row,curr_column,curr_color);
+				}
+			}	
+		}
+	}
+	
+	public void printmat(int[][]visited) {
+		for(int i=0;i<rows;i++) {
+			for(int j=0;j<columns;j++)
+				System.out.print(visited[i][j]);
+			System.out.println(" ");
+			}
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		char[][] img= {
+				{'R','R','B','G','G'},
+				{'R','B','M','R','Y'},
+				{'B','B','B','Y','Y'},
+				{'B','B','B','Y','R'},
+				{'Y','Y','Y','Y','R'}
+			};
+		
+		rows = img.length;
+		columns = img[0].length;
+		int count = 0;
+		int[][] visited = new int[rows][columns];
+		ImagePatch obj = new ImagePatch();
+		char curr_color ;
+		
+		for(int i=0;i<rows;i++)
+			for(int j=0;j<columns;j++) {
+				curr_color = img[i][j];
+				if(img[i][j]==curr_color && visited[i][j]!=1) {
+					count=count+1;
+					System.out.println("Print visited matrix");
+					obj.printmat(visited);
+					obj.countPatches(img,visited,i,j,curr_color);
+				}
+			}
+		System.out.println("No Of coloured patches in Image "+count);
+	}
+
+}
