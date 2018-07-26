@@ -1,0 +1,60 @@
+package abc.com;
+
+public class MergeSort {
+	
+	private static int elementsCount ;
+	
+	private void _merge(int[] arr,int low,int mid,int high) {
+		int n1 = mid-low+1;
+		int n2 = high-mid;
+		int[] L1 = new int[n1];
+		int[] L2 = new int[n2];
+		int k=low;
+		
+		for(int m=0;m<n1;m++)
+			L1[m]=arr[m+low];
+		
+		for(int n=0;n<n2;n++)
+			L2[n]=arr[n+mid+1];
+		
+		int i=0;
+		int j=0;
+		
+		while(i<n1 && j<n2) {
+			if(L1[i]<=L2[j])
+				arr[k++]=L1[i++];
+			else
+				arr[k++]=L2[j++];
+		}
+		
+		while(i<n1) {
+			arr[k++]=L1[i++];
+		}
+	
+		while(j<n2) {
+			arr[k++]=L2[j++];
+		}
+	}
+	
+	private void _mergeSort(int[] arr,int low,int high) {
+		if(low < high) {
+			int mid = (high+low)/2; 
+			_mergeSort(arr,low,mid);
+			_mergeSort(arr,mid+1,high);
+			_merge(arr,low,mid,high);
+		}
+	}
+	
+	public void printarr(int[] arr) {
+		for(int i=0;i<elementsCount;i++)
+			System.out.println(arr[i]);
+	}
+	
+	public static void main(String[] args) {
+		int[] arr =  {21,45,4,90,12,56,67};
+		elementsCount = arr.length ;
+		MergeSort obj = new MergeSort();
+		obj._mergeSort(arr,0,elementsCount-1);
+		obj.printarr(arr);
+	}
+}
