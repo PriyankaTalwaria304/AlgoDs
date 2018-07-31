@@ -1,0 +1,64 @@
+public class CountInversions {
+	
+		private static int elementsCount;
+		private static int inversions = 0;
+		
+		private int merge(int[] arr,int low,int mid,int high) {
+			int n1 = mid-low+1;//no of elements in left array
+			int n2 = high-mid; // no of elements in right array
+			int k = 0;
+			int[] temp_arr = new int[n1+n2];
+			int inv_count =0 ;
+			int i=0,j=0;
+			
+			while(i<n1 && j<n2) {
+				if(arr[i+low]<arr[j+mid+1]) {
+					temp_arr[k++]=arr[i+low];
+					i++;
+				}
+				else {
+					temp_arr[k++]=arr[j+mid+1];
+					j++;
+					inv_count+= mid-low-i+1;
+				}
+			}
+			
+			while(i<n1) {
+				temp_arr[k++]=arr[i+low];
+				i++;
+			}
+		
+			while(j<n2) {
+				temp_arr[k++]=arr[j+mid+1];
+				j++;
+			}
+			
+			k = k-1;
+			int m = high;
+			while(k>=0) {
+				arr[m--]=temp_arr[k];
+				k--;
+			}
+			
+			return inv_count;
+		}
+		private int mergeSort(int[] arr,int low,int high) {
+			int inv_count = 0;
+			int mid;
+			if(low<high) {
+				mid = (low+high)/2;
+				inv_count = mergeSort(arr,low,mid);
+				inv_count += mergeSort(arr,mid+1,high);
+				inv_count += merge(arr,low,mid,high);
+			}
+			return inv_count;
+		}
+		
+		public static void main(String args[]) {
+			CountInversions obj= new CountInversions();
+			int arr[]= {2,4,1,3,5};
+			elementsCount = arr.length;
+			inversions = obj.mergeSort(arr,0,elementsCount-1);
+			System.out.println("Inversions:"+ inversions);
+		}
+}
