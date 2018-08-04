@@ -1,0 +1,39 @@
+class Node{
+	int data;
+	Node left,right;
+	
+	Node(int value){
+		data = value;
+		left=right=null;
+	}
+}	
+
+public class LeftView {
+	
+	Node root;
+	public static int max_hd=-1;
+	
+	public void printLeftView(Node root,int hd) {
+		if(root==null)
+			return;
+		if(max_hd<hd)
+		{
+			max_hd= hd;
+			System.out.println(root.data);
+		}	
+		printLeftView(root.left,hd+1);
+		printLeftView(root.right,hd+1);	
+	}
+	
+	public static void main(String[] args) {
+		Node root = new Node(12);
+		root.left = new Node(10);
+        root.right = new Node(30);
+        root.right.left = new Node(25);
+        root.right.right = new Node(40);
+        LeftView t = new LeftView();
+        
+        t.printLeftView(root,0);
+
+	}
+}
