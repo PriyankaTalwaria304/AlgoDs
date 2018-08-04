@@ -1,0 +1,59 @@
+public class TripletWithGivenSum {
+
+	public void findtriplets(int[] arr,int sum){
+		for(int i=0;i<arr.length-2;i++){
+			int rem_sum = sum - arr[i];
+			int left,right;
+			
+			left = i+1;
+			right = arr.length-1;
+			while(left<right){
+				if(arr[left]+arr[right]==rem_sum){
+					System.out.println("Triplet Found : "+ arr[i] +"  "+ arr[left] +"  "+ arr[right]);
+					break;
+				}
+				else if(arr[left]+arr[right]<rem_sum){
+					left++;
+				}
+				else
+					right--;
+			}
+		}
+	}
+
+	public int partition(int[] arr,int low,int high){
+		int pivot_element = arr[high];
+		int i= low-1;
+		for(int j=low;j<high;j++){
+			if(arr[j]<=pivot_element){
+				i++;
+				int temp;
+				temp = arr[i];
+				arr[i]=arr[j];
+				arr[j]=temp;
+			}
+		}
+
+		int temp;
+		temp=arr[i+1];
+		arr[i+1]=arr[high];
+		arr[high]=temp;
+		return i+1;
+	}
+
+	public void quickSort(int[] arr,int start,int end){
+		if(start<end){
+			int pivot = partition(arr,start,end);
+			quickSort(arr,start,pivot-1);
+			quickSort(arr,pivot+1,end);
+		}
+	}
+
+	public static void main(String args[]){
+		TripletWithGivenSum obj = new TripletWithGivenSum();
+		int[] arr ={ 1, 4, 45, 6, 10, 8 };
+		int sum = 22;
+		obj.quickSort(arr,0,arr.length-1);
+		obj.findtriplets(arr,sum);
+	}
+}
