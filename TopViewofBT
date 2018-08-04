@@ -1,0 +1,75 @@
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
+
+class Node{
+	int data;
+	Node left,right;
+	
+	Node(int value){
+		data = value;
+		left=right=null;
+	}
+}	
+
+class QItem{
+	int distance;
+	Node node;
+	
+	QItem(int hd,Node n){
+		distance = hd;
+		node = n;
+	}
+}
+public class TopView {
+	Node root;
+	static HashMap<Integer,Integer> distance = new HashMap<Integer,Integer>();
+	static int max_hd =-1;
+	TopView(Node node){
+		root = node;
+	}
+	
+	public void printTopView() {
+		
+		if(root==null)
+			return;
+		
+		int hd =0;
+		Queue<QItem> q = new LinkedList<QItem>();
+		QItem qi= new QItem(hd,root);
+		q.add(qi);
+		
+		while(!q.isEmpty()) {
+			qi = q.remove();
+			hd = qi.distance;
+			Node node = qi.node;
+			
+			if(!distance.containsKey(hd)) {
+				distance.put(hd, root.data);
+				System.out.println("Node in Top viw of Binary Tree "+node.data);
+			}
+			
+			if(node.left!=null)
+				q.add(new QItem(hd-1,node.left));
+			
+			if(node.right!=null)
+			q.add(new QItem(hd+1,node.right));
+		}
+	}
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		    Node root = new Node(1);
+        root.left = new Node(2);
+        root.right = new Node(3);
+        root.left.right = new Node(4);
+        root.left.right.right = new Node(5);
+        root.left.right.right.right = new Node(6);
+        
+        TopView t = new TopView(root);
+        
+        System.out.println("Following are nodes in top view of Binary Tree");
+        t.printTopView();
+	}
+
+}
