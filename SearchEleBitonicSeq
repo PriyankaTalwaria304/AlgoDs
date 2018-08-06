@@ -1,0 +1,81 @@
+/*
+ * Search Bitonic Point - logn
+ * search in left sorted arr -log n
+ * search in right sorted arr- log n
+ * */
+public class SearchEleBitonicArr {
+	
+	public int findbitonic(int[] arr,int start,int end) {
+		if(start<end) {
+			int mid=(start+end)/2;
+			if(arr[mid] > arr[mid+1] && arr[mid]>arr[mid-1])
+				return mid;
+			
+			if(arr[mid]<arr[mid+1])
+				return findbitonic(arr,mid+1,end);
+			else
+				return findbitonic(arr,start,mid);
+		}
+		return -1;
+	}
+	
+	public int ascBS(int[] arr,int start,int end,int key) {
+		if(start<=end) {
+			int mid=(start+end)/2;
+			
+			if(arr[mid]==key)
+				return mid;
+			else if(arr[mid]>key)
+				return ascBS(arr,start,mid-1,key);
+			else
+				return ascBS(arr,mid+1,end,key);
+			
+		}
+		return -1;
+	}
+	
+	public int descBS(int[] arr,int start,int end,int key) {
+		if(start<=end) {
+			int mid = (start+end)/2;
+			if(arr[mid]==key)
+				return mid;
+			else if(arr[mid]>key)
+				return descBS(arr,start,mid-1,key);
+			else
+				return descBS(arr,mid+1,end,key);
+			
+		}
+		return -1;
+	}
+	
+	public int searchbitonic(int[] arr,int start,int end,int bitonic_index,int key) {
+		
+		if(arr[bitonic_index]<key) {
+			return -1;
+		}
+		else if(arr[bitonic_index]==key)
+			return bitonic_index;
+		else {
+			int temp = ascBS(arr,0,bitonic_index-1,key);
+			if(temp!=-1) {
+				return temp;
+			}
+			else
+				return descBS(arr,bitonic_index+1,end,key);
+		}
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		SearchEleBitonicArr obj = new SearchEleBitonicArr();
+		
+		int[] arr = {-8, 1, 2, 3, 4, 5, -2, -3};
+		int key =1;
+		int bitonic_index = obj.findbitonic(arr,0,arr.length-1);
+		int index = obj.searchbitonic(arr,0,arr.length-1,bitonic_index,key);
+		
+		if(index==-1)
+			System.out.println("Element not found");
+		else
+			System.out.println("Element Index in Bitonic Seq:"+index);
+	}
+}
