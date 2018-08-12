@@ -1,0 +1,81 @@
+public class LList {
+
+	private node node1, node2;
+
+	static class node {
+		int data;
+		node next;
+
+		public node(int item) {
+			data = item;
+			next = null;
+		}
+	};
+
+	public node reversell(node head) {
+		node curr = head;
+		node prev = null;
+		node next = null;
+		while (curr != null) {
+			next = curr.next;
+			curr.next = prev;
+			prev = curr;
+			curr = next;
+		}
+		head = prev;
+		return head;
+	}
+	public node addNumbers(node list1, node list2) {
+		node l1 = reversell(list1);
+		node l2 = reversell(list2);
+		node res =null;
+		node ptr = null;
+		int carry = 0;
+		while(l1!=null || l2!=null) {
+			int sum  = (l1!=null ? l1.data : 0) + (l2!=null ?l2.data:0)+carry;
+			carry = sum>9 ? 1:0;
+			node temp = new node(sum%10);
+			if(res==null) {
+				res = temp;
+				ptr = temp;
+			}
+			else
+			{
+				ptr.next = temp;
+				ptr = ptr.next;
+			}
+			if(l1!=null)
+				l1=l1.next;
+			if(l2!=null)
+				l2=l2.next;
+			
+		}
+		if(carry>0) {
+			node temp = new node(carry);
+			ptr.next = temp;
+		}
+		return reversell(res);
+	}
+
+	public void printList(node list) {
+		while (list != null) {
+			System.out.println(list.data);
+			list = list.next;
+		}
+	}
+
+	public static void main(String[] args) {
+		LList ll = new LList();
+		ll.node1 = new node(9);
+		ll.node1.next = new node(9);
+		ll.node1.next.next = new node(9);
+
+		ll.node2 = new node(8);
+		ll.node2.next = new node(8);
+		ll.node2.next.next = new node(8);
+		
+		node rs = ll.addNumbers(ll.node1, ll.node2);
+		ll.printList(rs);
+	}
+}
+
