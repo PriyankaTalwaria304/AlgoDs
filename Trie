@@ -1,0 +1,78 @@
+
+public class Trie {
+	
+	static final int ALPHABET_SIZE = 26;
+	
+	static TrieNode root ;
+	
+	static class TrieNode{
+		TrieNode[] children = new TrieNode[ALPHABET_SIZE];
+		boolean isLeaf;
+		
+		TrieNode(){
+			isLeaf=false;
+			for(int i=0;i<ALPHABET_SIZE;i++)
+				children[i]=null;
+		}
+	};
+	
+	public void insert(String str) {
+		TrieNode trienode = root;
+		for(int i=0;i<str.length();i++)
+		{
+			int index = str.charAt(i)-'a';
+			
+			if(trienode.children[index]!=null)
+				trienode = trienode.children[index];
+			else {
+				trienode.children[index]= new TrieNode();
+				trienode = trienode.children[index];
+				}	
+		}
+		trienode.isLeaf = true;
+	}
+	
+	public boolean search(String str) {
+		TrieNode trienode = root;
+		
+		for(int i=0;i<str.length();i++) {
+			int index = str.charAt(i)-'a';
+			if(trienode.children[index]!=null)
+				trienode = trienode.children[index];
+			else
+				return false;
+		}
+		
+		if(trienode!=null && trienode.isLeaf==true)
+			return true;
+		
+		return false;
+	}
+	
+	public static void main(String[] args) {
+		 Trie obj = new Trie();
+		 String keys[] = {"the", "a", "there", "answer", "any",
+                 "by", "bye", "their"};
+		 
+		 root = new TrieNode();
+		 
+		 for(int i=0;i<keys.length;i++)
+			 obj.insert(keys[i]);
+		 
+		 if(obj.search("their"))
+			 System.out.println("String found");
+		 else
+			 System.out.println("String not found");
+		 
+		 if(obj.search("any"))
+			 System.out.println("String found");
+		 else
+			 System.out.println("String not found");
+		 
+		 if(obj.search("therem"))
+			 System.out.println("String found");
+		 else
+			 System.out.println("String not found");
+	}
+
+}
